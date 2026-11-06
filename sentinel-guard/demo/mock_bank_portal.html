@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apex Premier Online Banking — Money Transfer</title>
+  <link rel="stylesheet" href="/browser_extension/content_scripts/banner.css">
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f1f5f9;
+      color: #1e293b;
+      margin: 0;
+      padding: 0;
+    }
+    .header {
+      background: #0f172a;
+      color: white;
+      padding: 16px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .header h1 { font-size: 20px; font-weight: 700; margin: 0; }
+    .badge-test { background: #3b82f6; font-size: 11px; padding: 4px 8px; border-radius: 4px; }
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      background: white;
+      border-radius: 12px;
+      padding: 32px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+    }
+    h2 { margin-top: 0; font-size: 22px; color: #0f172a; }
+    .balance-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 24px;
+    }
+    .balance-label { font-size: 12px; color: #64748b; text-transform: uppercase; }
+    .balance-amt { font-size: 28px; font-weight: 800; color: #0f172a; margin-top: 4px; }
+    .form-group { margin-bottom: 20px; }
+    label { display: block; font-weight: 600; font-size: 13px; margin-bottom: 6px; }
+    input[type="text"], input[type="number"] {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 15px;
+      box-sizing: border-box;
+    }
+    .checkbox-group { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #475569; }
+    .btn-submit {
+      width: 100%;
+      background: #0284c7;
+      color: white;
+      font-weight: 700;
+      font-size: 16px;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-submit:hover { background: #0369a1; }
+    .success-alert {
+      display: none;
+      background: #dcfce7;
+      border: 1px solid #86efac;
+      color: #166534;
+      padding: 16px;
+      border-radius: 8px;
+      margin-top: 20px;
+      font-size: 14px;
+    }
+    .test-notes {
+      margin-top: 32px;
+      padding: 16px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 8px;
+      font-size: 13px;
+      color: #1e40af;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Apex Premier Banking</h1>
+    <span class="badge-test">SIMULATED FINANCIAL TESTBED</span>
+  </div>
+
+  <div class="container">
+    <h2>Initiate Wire Transfer</h2>
+    <div class="balance-box">
+      <div class="balance-label">Checking Account (..8492) Balance</div>
+      <div class="balance-amt">$14,850.00</div>
+    </div>
+
+    <form id="transfer-form" data-sentinel-guard="true">
+      <div class="form-group">
+        <label for="payee-name">Recipient / Payee Full Name</label>
+        <input type="text" id="payee-name" name="payee_name" value="Michael Vance (Refund Agent)" required>
+      </div>
+
+      <div class="form-group">
+        <label for="account-num">Recipient Account / IBAN</label>
+        <input type="text" id="account-num" name="account_number" value="98421098412" required>
+      </div>
+
+      <div class="form-group">
+        <label for="transfer-amount">Transfer Amount (USD)</label>
+        <input type="number" id="transfer-amount" name="amount" value="1250" min="1" step="any" required>
+      </div>
+
+      <div class="form-group checkbox-group">
+        <input type="checkbox" id="is-new-payee" name="is_new_payee" checked data-new-payee="true">
+        <label for="is-new-payee" style="margin:0; font-weight: normal;">This is a newly added recipient</label>
+      </div>
+
+      <button type="submit" class="btn-submit" id="submit-btn">Authorize & Send Funds</button>
+    </form>
+
+    <div class="success-alert" id="success-banner">
+      ✓ <strong>Transfer Transmitted:</strong> Funds have been sent to recipient.
+    </div>
+
+    <div class="test-notes">
+      <strong>How to test SentinelGuard Transaction Guardrails here:</strong>
+      <ol style="margin: 8px 0 0 16px; padding: 0;">
+        <li>Try clicking <em>"Authorize & Send Funds"</em> with $1,250 to a new payee. SentinelGuard intercepts and displays the protective verification modal.</li>
+        <li>Go to the <a href="/dashboard" target="_blank" style="color:#1d4ed8; font-weight:600;">Dashboard &rarr; Attack Simulation Lab</a>, click <strong>"Simulate AnyDesk Launch"</strong>, then come back and press send: SentinelGuard will completely <strong>HALT</strong> the transaction due to active remote control!</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- Client-side Guardrail Simulation Script (Works standalone or with extension) -->
+  <script src="/browser_extension/content_scripts/banner.js"></script>
+  <script>
+    // Register domain with SentinelGuard Agent
+    fetch("http://127.0.0.1:8765/api/register-domain", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ domain: "chase.com" }) // Register as protected banking session
+    }).catch(() => {});
+
+    const form = document.getElementById("transfer-form");
+    const successBanner = document.getElementById("success-banner");
+
+    form.addEventListener("submit", async function(e) {
+      if (form.getAttribute("data-sentinel-approved") === "true") {
+        e.preventDefault();
+        successBanner.style.display = "block";
+        form.style.display = "none";
+        return;
+      }
+
+      e.preventDefault();
+      const amount = parseFloat(document.getElementById("transfer-amount").value);
+      const payee = document.getElementById("payee-name").value;
+      const isNewPayee = document.getElementById("is-new-payee").checked;
+
+      // Contact local SentinelGuard agent
+      try {
+        const res = await fetch("http://127.0.0.1:8765/api/check-transaction", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            domain: "chase.com",
+            amount: amount,
+            payee_name: payee,
+            is_new_payee: isNewPayee,
+            currency: "USD"
+          })
+        });
+
+        const verdict = await res.json();
+        if (verdict.verdict === "ALLOW") {
+          form.setAttribute("data-sentinel-approved", "true");
+          form.submit();
+        } else {
+          // Render Sentinel Guardrail Interstitial Modal
+          SentinelUI.renderGuardrailModal(
+            verdict,
+            // onConfirm
+            () => {
+              form.setAttribute("data-sentinel-approved", "true");
+              successBanner.style.display = "block";
+              form.style.display = "none";
+            },
+            // onCancel
+            () => {
+              alert("Transaction cancelled. Your funds were kept safe.");
+            }
+          );
+        }
+      } catch (err) {
+        // Fallback
+        alert("SentinelGuard agent offline: Proceed with caution.");
+      }
+    });
+  </script>
+</body>
+</html>

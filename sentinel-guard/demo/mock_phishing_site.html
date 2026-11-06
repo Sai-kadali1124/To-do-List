@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulated Phishing Portal — Chase Security Verification</title>
+  <link rel="stylesheet" href="/browser_extension/content_scripts/banner.css">
+  <style>
+    body { font-family: sans-serif; background: #0c2340; color: white; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+    .login-box { background: white; color: #333; padding: 32px; border-radius: 8px; width: 360px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+    h2 { font-size: 20px; color: #117aca; margin-top: 0; }
+    input { width: 100%; padding: 10px; margin: 8px 0 16px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+    button { width: 100%; background: #117aca; color: white; border: none; padding: 12px; font-weight: bold; border-radius: 4px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <div class="login-box">
+    <h2>Simulated Phishing Page</h2>
+    <p style="font-size: 13px; color: #666;">Demonstrates cloned credential harvesting page: <code>chase-security-verify.com</code></p>
+    <label>Username / Account ID</label>
+    <input type="text" placeholder="Enter bank username">
+    <label>Password</label>
+    <input type="password" placeholder="Enter password">
+    <button>Sign In</button>
+  </div>
+
+  <script src="/browser_extension/content_scripts/banner.js"></script>
+  <script>
+    // Evaluate domain against SentinelGuard Agent
+    const fakeDomain = "chase-security-verify.com";
+    fetch("http://127.0.0.1:8765/api/check-url", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ url: "https://" + fakeDomain + "/login" })
+    })
+    .then(r => r.json())
+    .then(verdict => {
+      if (verdict.verdict === "BLOCK") {
+        SentinelUI.renderBlockInterstitial(verdict);
+      }
+    })
+    .catch(() => {});
+  </script>
+</body>
+</html>

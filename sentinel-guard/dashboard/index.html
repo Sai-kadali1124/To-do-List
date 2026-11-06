@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SentinelGuard — Endpoint Defense & Scam Interceptor</title>
+  <link rel="stylesheet" href="/dashboard/css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-logo">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <polyline points="9 12 11 14 15 10"/>
+          </svg>
+        </div>
+        <div>
+          <h2 class="brand-name">SentinelGuard</h2>
+          <span class="brand-sub">Preventive Architecture</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-tab="status-tab">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Device Health ("Am I Safe?")
+        </button>
+        <button class="nav-item" data-tab="events-tab">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Threat & Scam Log
+        </button>
+        <button class="nav-item" data-tab="guardrails-tab">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+          Transaction Guardrails
+        </button>
+        <button class="nav-item" data-tab="quarantine-tab">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          Quarantine Vault
+        </button>
+        <button class="nav-item" data-tab="privacy-tab">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Privacy & Data Audit
+        </button>
+        <button class="nav-item" data-tab="demo-tab">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Attack Simulation Lab
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="daemon-indicator">
+          <span class="pulsing-dot"></span>
+          <span>Agent Daemon Active</span>
+        </div>
+        <div class="daemon-info">PID: Localhost 8765</div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <!-- Top App Bar -->
+      <header class="app-header">
+        <div>
+          <h1 class="page-title" id="page-heading">Device Health</h1>
+          <p class="page-subtitle" id="page-subheading">Continuous on-device protection across apps, transactions, and downloads.</p>
+        </div>
+        <div class="header-actions">
+          <div class="sensitivity-badge">
+            Mode: <strong id="current-mode-label">Balanced</strong>
+          </div>
+          <button class="btn-refresh" id="refresh-btn" title="Refresh state">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- TAB 1: DEVICE HEALTH ("AM I SAFE?") -->
+      <section id="status-tab" class="tab-pane active">
+        <!-- Big Calm Status Banner -->
+        <div class="status-hero" id="status-hero-card">
+          <div class="hero-icon-container" id="hero-icon">
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <polyline points="9 12 11 14 15 10"/>
+            </svg>
+          </div>
+          <div class="hero-text-content">
+            <div class="hero-badge" id="hero-status-tag">ALL CLEAR</div>
+            <h2 class="hero-headline" id="hero-headline">Shields Active — You are Protected</h2>
+            <p class="hero-summary" id="hero-summary">
+              Real-time process monitoring, browser guardrails, download scanning, and scam interception are active. No threats detected.
+            </p>
+          </div>
+        </div>
+
+        <!-- Metrics Overview -->
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-label">Threats Proactively Blocked</div>
+            <div class="metric-value" id="stat-threats-blocked">0</div>
+            <div class="metric-sub">Pre-execution & pre-navigation</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Transactions Guarded</div>
+            <div class="metric-value" id="stat-tx-guarded">0</div>
+            <div class="metric-sub">Monitored for scam patterns</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Files Quarantined</div>
+            <div class="metric-value" id="stat-files-quarantined">0</div>
+            <div class="metric-sub">Isolated before execution</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">User Overrides</div>
+            <div class="metric-value" id="stat-overrides">0</div>
+            <div class="metric-sub">Zero lock-in, full autonomy</div>
+          </div>
+        </div>
+
+        <!-- Active Protection Modules Status -->
+        <h3 class="section-title">Active Prevention Modules</h3>
+        <div class="modules-grid">
+          <div class="module-card">
+            <div class="module-header">
+              <span class="module-status-dot active"></span>
+              <h4>Browser Anti-Phishing Guard</h4>
+            </div>
+            <p class="module-desc">Intercepts typosquatted banking domains, Punycode homographs, and credential stealers before page render.</p>
+          </div>
+          <div class="module-card">
+            <div class="module-header">
+              <span class="module-status-dot active"></span>
+              <h4>Remote-Access Scam Interceptor</h4>
+            </div>
+            <p class="module-desc">Scans for active AnyDesk, TeamViewer, RustDesk instances; halts financial transactions if unauthorized access is running.</p>
+          </div>
+          <div class="module-card">
+            <div class="module-header">
+              <span class="module-status-dot active"></span>
+              <h4>Pre-Execution Download Scanner</h4>
+            </div>
+            <p class="module-desc">Watches Downloads folder, quarantines double-extension disguises (.pdf.exe) and high-entropy packed malware.</p>
+          </div>
+          <div class="module-card">
+            <div class="module-header">
+              <span class="module-status-dot active"></span>
+              <h4>Transaction Guardrails</h4>
+            </div>
+            <p class="module-desc">Provides contextual friction on new payee additions and high-value transfers; prevents impulse fraud transfers.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2: THREAT & SCAM LOG -->
+      <section id="events-tab" class="tab-pane">
+        <div class="panel-header">
+          <h3>Incident & Prevention Feed</h3>
+          <span class="panel-note">Real-time log of security events on this device.</span>
+        </div>
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Tier</th>
+                <th>Category</th>
+                <th>Target / Details</th>
+                <th>Action Taken</th>
+                <th>Time</th>
+                <th>User Override</th>
+              </tr>
+            </thead>
+            <tbody id="events-table-body">
+              <tr>
+                <td colspan="6" class="text-center py-6">No incidents recorded yet. Your system is calm and secure.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- TAB 3: TRANSACTION GUARDRAILS CONFIG -->
+      <section id="guardrails-tab" class="tab-pane">
+        <div class="panel-header">
+          <h3>Transaction & Fraud Guardrails</h3>
+          <span class="panel-note">Configure protective friction before money leaves your device.</span>
+        </div>
+        <div class="config-card">
+          <div class="setting-row">
+            <div>
+              <div class="setting-title">Transfer Warning Threshold</div>
+              <div class="setting-desc">Prompts a calm verification check whenever an online transfer exceeds this amount.</div>
+            </div>
+            <div class="setting-control">
+              <span class="currency-prefix">$</span>
+              <input type="number" id="cfg-threshold-input" class="number-input" value="500" min="50" step="50">
+            </div>
+          </div>
+
+          <div class="setting-row">
+            <div>
+              <div class="setting-title">New Payee Interception</div>
+              <div class="setting-desc">Require explicit re-confirmation when adding or wiring money to a newly created recipient.</div>
+            </div>
+            <div class="setting-control">
+              <label class="switch">
+                <input type="checkbox" id="cfg-new-payee-toggle" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="setting-row">
+            <div>
+              <div class="setting-title">Auto-Halt on Active Remote Control</div>
+              <div class="setting-desc">Automatically pause all financial form submissions if AnyDesk, TeamViewer, or other remote tools are running.</div>
+            </div>
+            <div class="setting-control">
+              <label class="switch">
+                <input type="checkbox" id="cfg-rat-pause-toggle" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="setting-row">
+            <div>
+              <div class="setting-title">Protection Sensitivity Level</div>
+              <div class="setting-desc">
+                <strong>Balanced:</strong> Blocks P0/P1 threats, warns on P2.<br>
+                <strong>Strict:</strong> Blocks suspicious P2 domains automatically.<br>
+                <strong>Relaxed:</strong> Blocks confirmed P0 threats only.
+              </div>
+            </div>
+            <div class="setting-control">
+              <select id="cfg-sensitivity-select" class="dropdown-input">
+                <option value="balanced" selected>Balanced (Recommended)</option>
+                <option value="strict">Strict</option>
+                <option value="relaxed">Relaxed</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="mt-4">
+            <button id="save-config-btn" class="btn-primary">Save Guardrail Policies</button>
+            <span id="config-saved-indicator" class="saved-text" style="display: none;">Saved successfully!</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 4: QUARANTINE VAULT -->
+      <section id="quarantine-tab" class="tab-pane">
+        <div class="panel-header">
+          <h3>Quarantine Vault</h3>
+          <span class="panel-note">Files isolated by the Pre-Execution Download Inspector. Undo any block with one click.</span>
+        </div>
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>File Name</th>
+                <th>Threat Reason</th>
+                <th>SHA-256</th>
+                <th>Quarantined At</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="quarantine-table-body">
+              <tr>
+                <td colspan="6" class="text-center py-6">Quarantine vault is empty.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- TAB 5: PRIVACY & DATA MINIMIZATION -->
+      <section id="privacy-tab" class="tab-pane">
+        <div class="panel-header">
+          <h3>Privacy & Data Minimization Audit</h3>
+          <span class="panel-note">Verify that SentinelGuard protects you without surveilling you.</span>
+        </div>
+        <div class="privacy-grid">
+          <div class="privacy-metric-card">
+            <div class="privacy-metric-label">Local Database Size</div>
+            <div class="privacy-metric-val" id="privacy-local-size">0 KB</div>
+            <div class="privacy-metric-sub">Encrypted local SQLite storage</div>
+          </div>
+          <div class="privacy-metric-card">
+            <div class="privacy-metric-label">Cloud Data Transmitted</div>
+            <div class="privacy-metric-val emerald-text">0 Bytes</div>
+            <div class="privacy-metric-sub">100% on-device local resolution</div>
+          </div>
+          <div class="privacy-metric-card">
+            <div class="privacy-metric-label">Data Retention Policy</div>
+            <div class="privacy-metric-val">30 Days</div>
+            <div class="privacy-metric-sub">Rolling local auto-purge</div>
+          </div>
+        </div>
+
+        <div class="privacy-guarantees-card">
+          <h4>Design Constraints & Architectural Guarantees</h4>
+          <ul class="guarantee-list">
+            <li>🛡️ <strong>Zero Browsing History Upload:</strong> URL reputation is resolved locally using deterministic k-anonymity prefixes and local blocklists. Full URLs never leave your machine.</li>
+            <li>🔒 <strong>No Screen Recording:</strong> Screen inspection is strictly confined to transient heuristic matching during active remote-session events and discarded instantly.</li>
+            <li>🚫 <strong>Zero Third-Party Telemetry:</strong> No tracking SDKs, no behavioral advertising hooks, and no sale of telemetry to data brokers.</li>
+            <li>⚙️ <strong>Right to Erasure & Portability:</strong> All threat logs and quarantine records can be exported or purged instantly by the user.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- TAB 6: ATTACK SIMULATION LAB -->
+      <section id="demo-tab" class="tab-pane">
+        <div class="panel-header">
+          <h3>Attack Simulation Lab</h3>
+          <span class="panel-note">Safely test how SentinelGuard prevents real-world attack vectors in real time.</span>
+        </div>
+
+        <div class="sim-grid">
+          <!-- Simulation 1: Tech Support Scam -->
+          <div class="sim-card">
+            <div class="sim-header">
+              <span class="sim-badge">Scenario 1</span>
+              <h4>Tech Support Remote Access Scam</h4>
+            </div>
+            <p class="sim-desc">
+              Simulates a scammer convincing a user to open AnyDesk while accessing a Chase or Bank of America portal.
+            </p>
+            <div class="sim-actions">
+              <button class="btn-sim-run" id="sim-rat-start-btn">1. Simulate AnyDesk Launch</button>
+              <button class="btn-sim-stop" id="sim-rat-stop-btn">Stop Simulation</button>
+            </div>
+            <div class="sim-result-box" id="sim-rat-result">Status: Inactive</div>
+          </div>
+
+          <!-- Simulation 2: Malicious Download -->
+          <div class="sim-card">
+            <div class="sim-header">
+              <span class="sim-badge">Scenario 2</span>
+              <h4>Deceptive Invoice Download (.pdf.exe)</h4>
+            </div>
+            <p class="sim-desc">
+              Simulates a user downloading a double-extension ransomware payload (`Invoice_Statement.pdf.exe`).
+            </p>
+            <div class="sim-actions">
+              <button class="btn-sim-run" id="sim-download-btn">Trigger Malicious Download</button>
+            </div>
+            <div class="sim-result-box" id="sim-download-result">Status: Inactive</div>
+          </div>
+
+          <!-- Simulation 3: Mock Banking Portal -->
+          <div class="sim-card">
+            <div class="sim-header">
+              <span class="sim-badge">Scenario 3</span>
+              <h4>Interactive Banking Guardrail Test</h4>
+            </div>
+            <p class="sim-desc">
+              Opens our test banking portal to test money transfer guardrails and payee verification prompts.
+            </p>
+            <div class="sim-actions">
+              <a href="/demo/mock_bank_portal.html" target="_blank" class="btn-sim-run" style="text-decoration:none; display:inline-block; text-align:center;">
+                Open Mock Bank Portal &rarr;
+              </a>
+            </div>
+            <div class="sim-result-box">Opens in new tab with active guardrails</div>
+          </div>
+
+          <!-- Simulation 4: Mock Phishing Site -->
+          <div class="sim-card">
+            <div class="sim-header">
+              <span class="sim-badge">Scenario 4</span>
+              <h4>Anti-Phishing Homograph Test</h4>
+            </div>
+            <p class="sim-desc">
+              Opens a cloned phishing test portal to observe instant URL interception and credential protection.
+            </p>
+            <div class="sim-actions">
+              <a href="/demo/mock_phishing_site.html" target="_blank" class="btn-sim-run" style="text-decoration:none; display:inline-block; text-align:center;">
+                Open Mock Phishing Page &rarr;
+              </a>
+            </div>
+            <div class="sim-result-box">Tests Anti-Phishing Interstitial</div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="/dashboard/js/app.js"></script>
+</body>
+</html>

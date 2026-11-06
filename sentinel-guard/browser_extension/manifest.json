@@ -1,0 +1,39 @@
+{
+  "manifest_version": 3,
+  "name": "SentinelGuard — Proactive Web & Fraud Shield",
+  "version": "1.0.0",
+  "description": "Proactively protects your browser from phishing, credential theft, tech-support scams, and unauthorized financial transfers.",
+  "permissions": [
+    "storage",
+    "tabs",
+    "webNavigation"
+  ],
+  "host_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "js": [
+        "content_scripts/banner.js",
+        "content_scripts/guardrails.js",
+        "content_scripts/form_shield.js"
+      ],
+      "css": [
+        "content_scripts/banner.css"
+      ],
+      "run_at": "document_start"
+    }
+  ],
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "SentinelGuard Protection Status"
+  }
+}

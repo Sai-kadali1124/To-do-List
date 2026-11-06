@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SentinelGuard Status</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <header class="popup-header">
+      <div class="brand">
+        <svg class="brand-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          <polyline points="9 12 11 14 15 10"/>
+        </svg>
+        <span class="brand-title">SentinelGuard</span>
+      </div>
+      <div id="agent-badge" class="badge-status badge-connected">Agent Live</div>
+    </header>
+
+    <div class="site-card">
+      <div class="site-domain" id="current-domain">example.com</div>
+      <div class="site-status" id="current-site-verdict">
+        <span class="status-dot dot-safe"></span>
+        <span id="site-status-text">Verified Secure Domain</span>
+      </div>
+    </div>
+
+    <div class="features-list">
+      <div class="feature-item">
+        <span class="feature-name">Anti-Phishing & Clones</span>
+        <span class="feature-state active">ON</span>
+      </div>
+      <div class="feature-item">
+        <span class="feature-name">Transaction Guardrails</span>
+        <span class="feature-state active">ON</span>
+      </div>
+      <div class="feature-item">
+        <span class="feature-name">Remote-Control Scam Defense</span>
+        <span class="feature-state active">ON</span>
+      </div>
+      <div class="feature-item">
+        <span class="feature-name">Credential Leak Shield</span>
+        <span class="feature-state active">ON</span>
+      </div>
+    </div>
+
+    <footer class="popup-footer">
+      <button id="open-dashboard-btn" class="btn-dashboard">Open Sentinel Control Dashboard</button>
+    </footer>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
